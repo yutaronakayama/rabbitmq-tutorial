@@ -2,6 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/streadway/amqp"
 )
@@ -46,7 +47,7 @@ func (r *RabbitMQ) Connect() error {
 	return nil
 }
 
-func (r *RabbitMQ) Publish(message string) error {
+func (r *RabbitMQ) Publish(message string, counter int) error {
 	err := r.Channel.Publish(
 		"",
 		"TestQueue",
@@ -54,7 +55,7 @@ func (r *RabbitMQ) Publish(message string) error {
 		false,
 		amqp.Publishing{
 			ContentType: "text/plain",
-			Body:        []byte(message),
+			Body:        []byte(strconv.Itoa(counter) + " hello"),
 		},
 	)
 	if err != nil {

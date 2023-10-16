@@ -22,13 +22,14 @@ func Run() error {
 	}
 	defer app.Rmq.Conn.Close()
 
-	err = app.Rmq.Publish("hi")
-	if err != nil {
-		return err
+	for counter := 1; counter < 6; counter++ {
+		err = app.Rmq.Publish("hi", counter)
+		if err != nil {
+			return err
+		}
+		//app.Rmq.Consume()
 	}
-
 	app.Rmq.Consume()
-
 	return nil
 }
 
